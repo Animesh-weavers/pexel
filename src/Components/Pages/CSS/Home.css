@@ -1,0 +1,26 @@
+.search-container {
+    width: 100%;
+    height: 28rem;
+    background: url('https://images.pexels.com/photos/9906085/pexels-photo-9906085.jpeg?auto=compress&cs=tinysrgb&fit=crop&fp-y=0.55&h=500&sharp=10&w=1500');
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title-container {
+    width: 50%;
+    color: white;
+}
+
+.form-container {
+    width: 50%;
+}
+
+.form-control {
+    height: 3rem;
+}
+
+p {
+    color: white;
+}
