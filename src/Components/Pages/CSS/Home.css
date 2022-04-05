@@ -24,3 +24,7 @@
 p {
     color: white;
 }
+
+.card-img, .card-img-top {
+    height: 20rem;
+}

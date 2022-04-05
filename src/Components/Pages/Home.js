@@ -1,31 +1,29 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Form, Card } from 'react-bootstrap'
-import { Outlet } from 'react-router-dom';
+import { Form, Card, Row, Col, Container } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom';
 import './CSS/Home.css';
 import axios from "axios";
 
 const Home = (props) => {
-    const [show, setShow] = useState(false);
     const [datas, setDatas] = useState([]);
     const searchInputRef = useRef();
+    const navigate = useNavigate();
     const apiKey = '563492ad6f91700001000001cc75a1da232341c3bc555e612699dba5';
-
+    let enteredSearchInput;
 
     useEffect(() => {
         let headersList = {
             "Accept": "application/json",
             "Authorization": apiKey
         }
-
         let reqOptions = {
-            url: "https://api.pexels.com/v1/curated?per_page=50&page=1",
+            url: "https://api.pexels.com/v1/curated?per_page=53&page=1",
             method: "GET",
             headers: headersList,
         }
 
         axios.request(reqOptions).then(function (response) {
             setDatas(response.data);
-            // console.log(response.data)
         }).catch(error => {
             console.log(error);
         })
@@ -33,11 +31,11 @@ const Home = (props) => {
 
     const formSubmitHandler = (e) => {
         e.preventDefault();
-        let enteredSearchInput = searchInputRef.current.value;
+        enteredSearchInput = searchInputRef.current.value;
         props.searchInputHandler(enteredSearchInput)
         searchInputRef.current.value = "";
-        setShow(true);
-
+        searchInputRef.current.blur();
+        navigate({ pathname: '/photos' }, { replace: false });
     }
     return (
         <>
@@ -59,19 +57,22 @@ const Home = (props) => {
                     </Form>
                 </div>
             </div>
-            {!show && <div style={{ display: 'flex', width: '100%', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
-                {datas.photos?.map((data) => (<Card style={{ width: '18rem' }} key={data.id}>
-                    <Card.Img variant="top" src={data.src.large} />
-                    <Card.Body>
-                        <Card.Title>Photographer:{data.photographer}</Card.Title>
-                    </Card.Body>
-                    <Card.Body>
-                        <Card.Link href="#">Card Link</Card.Link>
-                        <Card.Link href="#">Another Link</Card.Link>
-                    </Card.Body>
-                </Card>))}
-            </div>}
-            {show && <Outlet />}
+            <Container fluid>
+                <Row>
+                    {datas.photos?.map(data => (
+                        <Col style={{ width: '18rem', padding: '1rem' }} key={data.id}>
+                            <Card.Img variant="top" src={data.src.large} />
+                            <Card.Body>
+                                <Card.Title>Photographer:{data.photographer}</Card.Title>
+                            </Card.Body>
+                            <Card.Body>
+                                <Card.Link href="#">Card Link</Card.Link>
+                                <Card.Link href="#">Another Link</Card.Link>
+                            </Card.Body>
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
         </>
     )
 }

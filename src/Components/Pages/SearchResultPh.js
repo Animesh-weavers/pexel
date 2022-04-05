@@ -1,9 +1,9 @@
 import React from 'react'
 
 const SearchResultPh = (props) => {
-  console.log(props.searchInput);
+  // console.log(props.searchInput);
   return (
-    <div>SearchResultPh</div>
+    <div>{props.searchInput}</div>
   )
 }
 
