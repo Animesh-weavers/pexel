@@ -1,15 +1,21 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Form, Card, Row, Col, Container } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { Form, Card, Row, Col, Container, Button } from 'react-bootstrap';
+import { MdFavoriteBorder } from '@react-icons/all-files/md/MdFavoriteBorder'
+// import {MdFavorite} from "@react-icons/all-files/md/MdFavorite";
+import { GrView } from "@react-icons/all-files/gr/GrView"
 import './CSS/Home.css';
 import axios from "axios";
 
-const Home = (props) => {
+const Home = () => {
+    const perPage = 30;
+    const [totalPages, setTotalPages] = useState(1);
+    const [pageNo, setPageNo] = useState(1);
     const [datas, setDatas] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false);
     const searchInputRef = useRef();
-    const navigate = useNavigate();
     const apiKey = '563492ad6f91700001000001cc75a1da232341c3bc555e612699dba5';
-    let enteredSearchInput;
 
     useEffect(() => {
         let headersList = {
@@ -17,25 +23,33 @@ const Home = (props) => {
             "Authorization": apiKey
         }
         let reqOptions = {
-            url: "https://api.pexels.com/v1/curated?per_page=53&page=1",
+            url: `https://api.pexels.com/v1/curated?per_page=${perPage}&page=${pageNo}`,
             method: "GET",
             headers: headersList,
         }
-
+        setLoading(true);
         axios.request(reqOptions).then(function (response) {
-            setDatas(response.data);
+            setTotalPages(response.page);
+            // console.log(response.data)
+            setDatas([...datas, ...response.data.photos]);
+            setLoading(false);
         }).catch(error => {
-            console.log(error);
+            console.warn(error);
         })
-    }, []);
+    }, [pageNo]);
+    //For search api query
+    const getSearchedPhotos = () => {
+
+    }
 
     const formSubmitHandler = (e) => {
         e.preventDefault();
-        enteredSearchInput = searchInputRef.current.value;
-        props.searchInputHandler(enteredSearchInput)
+        setShow(true);
+        let enteredSearchInput = searchInputRef.current.value;
+        setSearchQuery(enteredSearchInput);
         searchInputRef.current.value = "";
         searchInputRef.current.blur();
-        navigate({ pathname: '/photos' }, { replace: false });
+        getSearchedPhotos();
     }
     return (
         <>
@@ -57,22 +71,29 @@ const Home = (props) => {
                     </Form>
                 </div>
             </div>
-            <Container fluid>
-                <Row>
-                    {datas.photos?.map(data => (
-                        <Col style={{ width: '18rem', padding: '1rem' }} key={data.id}>
-                            <Card.Img variant="top" src={data.src.large} />
-                            <Card.Body>
-                                <Card.Title>Photographer:{data.photographer}</Card.Title>
-                            </Card.Body>
-                            <Card.Body>
-                                <Card.Link href="#">Card Link</Card.Link>
-                                <Card.Link href="#">Another Link</Card.Link>
-                            </Card.Body>
-                        </Col>
-                    ))}
-                </Row>
-            </Container>
+            {!show && <div className="photos">
+                <Container fluid>
+                    <Row>
+                        {datas?.map((data, index) => (
+                            <Col style={{ width: '18rem', padding: '1rem' }} key={index}>
+                                <Card.Img variant="top" src={data.src.large} />
+                                <Card.Body>
+                                    <Card.Title>Photographer:{data.photographer}</Card.Title>
+                                </Card.Body>
+                                <Card.Body style={{ display: 'flex', flexWrap: 'wrap', width: '100%', justifyContent: 'space-between' }}>
+                                    <Card.Link style={{ color: 'black', textDecoration: 'none' }} href={data.src.large} target="_blank"><GrView /></Card.Link>
+                                    <MdFavoriteBorder onMouseOver={({ target }) => target.style.cursor = 'pointer'} />
+                                </Card.Body>
+                            </Col>
+                        ))}
+                    </Row>
+                </Container>
+
+                {totalPages !== pageNo && <div className="button-container">
+                    <Button variant="success" onClick={() => setPageNo(pageNo + 1)}>{loading ? 'Loading...' : 'View More'}</Button>
+                </div>}
+            </div>}
+            {show && <div>{searchQuery}</div>}
         </>
     )
 }

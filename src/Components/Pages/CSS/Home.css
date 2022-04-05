@@ -28,3 +28,8 @@ p {
 .card-img, .card-img-top {
     height: 20rem;
 }
+.button-container{
+    width: 100%;
+    text-align: center;
+    padding: 2rem;
+}

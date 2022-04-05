@@ -8,7 +8,7 @@ const NavigationBar = () => {
         <>
             <Navbar className="navbar-container">
                 <Container>
-                    <Navbar.Brand as={Link} to='/' style={{ color: 'white' }} >Navbar</Navbar.Brand>
+                    <Navbar.Brand as={Link} to='/' style={{ color: 'white' }} >PEXEL</Navbar.Brand>
                     <Nav className="justify-content-end" >
                         <Nav.Link as={Link} to='/' style={{ color: 'white', minWidth: '5rem', textAlign: 'center', marginRight: '1rem' }}>Home</Nav.Link>
                         <Nav.Link as={Link} to='/career' style={{ color: 'white', minWidth: '5rem', textAlign: 'center', marginRight: '1rem' }}>Career</Nav.Link>
