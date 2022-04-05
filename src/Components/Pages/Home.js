@@ -2,18 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Form, Card, Row, Col, Container, Button } from 'react-bootstrap';
 import { MdFavoriteBorder } from '@react-icons/all-files/md/MdFavoriteBorder'
 // import {MdFavorite} from "@react-icons/all-files/md/MdFavorite";
+import Modal from '../Modal/ModalPic';
 import { GrView } from "@react-icons/all-files/gr/GrView"
 import './CSS/Home.css';
 import axios from "axios";
 
 const Home = () => {
     const perPage = 30;
+    const [photoId, setPhotoId] = useState(0)
     const [totalPages, setTotalPages] = useState(1);
     const [pageNo, setPageNo] = useState(1);
     const [datas, setDatas] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [isShowModal, setShowModal] = useState(false);
     const searchInputRef = useRef();
     const apiKey = '563492ad6f91700001000001cc75a1da232341c3bc555e612699dba5';
 
@@ -41,7 +44,6 @@ const Home = () => {
     const getSearchedPhotos = () => {
 
     }
-
     const formSubmitHandler = (e) => {
         e.preventDefault();
         setShow(true);
@@ -72,6 +74,7 @@ const Home = () => {
                 </div>
             </div>
             {!show && <div className="photos">
+                {photoId > 0 && <Modal photoid={photoId} show={isShowModal} onHide={() => setShowModal(false)} />}
                 <Container fluid>
                     <Row>
                         {datas?.map((data, index) => (
@@ -81,7 +84,10 @@ const Home = () => {
                                     <Card.Title>Photographer:{data.photographer}</Card.Title>
                                 </Card.Body>
                                 <Card.Body style={{ display: 'flex', flexWrap: 'wrap', width: '100%', justifyContent: 'space-between' }}>
-                                    <Card.Link style={{ color: 'black', textDecoration: 'none' }} href={data.src.large} target="_blank"><GrView /></Card.Link>
+                                    <GrView onClick={() => {
+                                        setPhotoId(data.id)
+                                        setShowModal(true);
+                                    }} onMouseOver={({ target }) => target.style.cursor = 'pointer'} />
                                     <MdFavoriteBorder onMouseOver={({ target }) => target.style.cursor = 'pointer'} />
                                 </Card.Body>
                             </Col>
