@@ -21,7 +21,6 @@ const App = () => {
   const navSearchQueryHandler = (query) => {
     setNavSearchQuery(query)
   }
-  // console.log(navSearchQuery)
   return (
     <>
       <NavigationBar isShowSearchedPhotos={isShowSearchedPhotos} navSearchQueryHandler={navSearchQueryHandler} />
