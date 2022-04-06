@@ -7,14 +7,14 @@ import { GrView } from "@react-icons/all-files/gr/GrView"
 import './CSS/Home.css';
 import axios from "axios";
 
-const Home = () => {
+const Home = (props) => {
     const perPage = 30;
+    // const [searchPhotoDetails, setSearchPhotoDetails] = useState([]);
     const [photoId, setPhotoId] = useState(0)
     const [totalPages, setTotalPages] = useState(1);
     const [pageNo, setPageNo] = useState(1);
     const [datas, setDatas] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [show, setShow] = useState(false);
+    // const [searchQuery, setSearchQuery] = useState('');
     const [loading, setLoading] = useState(false);
     const [isShowModal, setShowModal] = useState(false);
     const searchInputRef = useRef();
@@ -40,18 +40,13 @@ const Home = () => {
             console.warn(error);
         })
     }, [pageNo]);
-    //For search api query
-    const getSearchedPhotos = () => {
-
-    }
+    //Search Form Submit Handler
     const formSubmitHandler = (e) => {
         e.preventDefault();
-        setShow(true);
         let enteredSearchInput = searchInputRef.current.value;
-        setSearchQuery(enteredSearchInput);
         searchInputRef.current.value = "";
         searchInputRef.current.blur();
-        getSearchedPhotos();
+        props.searchQueryHandler(enteredSearchInput);
     }
     return (
         <>
@@ -73,7 +68,7 @@ const Home = () => {
                     </Form>
                 </div>
             </div>
-            {!show && <div className="photos">
+            <div className="photos">
                 {photoId > 0 && <Modal photoid={photoId} show={isShowModal} onHide={() => setShowModal(false)} />}
                 <Container fluid>
                     <Row>
@@ -81,7 +76,7 @@ const Home = () => {
                             <Col style={{ width: '18rem', padding: '1rem' }} key={index}>
                                 <Card.Img variant="top" src={data.src.large} />
                                 <Card.Body>
-                                    <Card.Title>Photographer:{data.photographer}</Card.Title>
+                                    <Card.Title>Photographer:{" "}{data.photographer}</Card.Title>
                                 </Card.Body>
                                 <Card.Body style={{ display: 'flex', flexWrap: 'wrap', width: '100%', justifyContent: 'space-between' }}>
                                     <GrView onClick={() => {
@@ -98,8 +93,7 @@ const Home = () => {
                 {totalPages !== pageNo && <div className="button-container">
                     <Button variant="success" onClick={() => setPageNo(pageNo + 1)}>{loading ? 'Loading...' : 'View More'}</Button>
                 </div>}
-            </div>}
-            {show && <div>{searchQuery}</div>}
+            </div>
         </>
     )
 }
