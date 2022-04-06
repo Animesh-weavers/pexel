@@ -16,10 +16,9 @@ const SearchedPhotos = (props) => {
     const [pageNo, setPageNo] = useState(1);
     const [loading, setLoading] = useState(false);
     const [isShowModal, setShowModal] = useState(false);
+    const [isShowViewMore, setIsShowViewMore] = useState(true);
     const apiKey = '563492ad6f91700001000001cc75a1da232341c3bc555e612699dba5';
     useEffect(() => {
-
-
         let headersList = {
             "Accept": "application/json",
             "Authorization": apiKey
@@ -32,6 +31,9 @@ const SearchedPhotos = (props) => {
         setLoading(true);
         axios.request(reqOptions).then(function (response) {
             setTotalPages(response.page);
+            if (response.data.photos.length == 0) {
+                setIsShowViewMore(false)
+            }
             setDatas([...datas, ...response.data.photos]);
             setLoading(false);
         }).catch(error => {
@@ -63,7 +65,7 @@ const SearchedPhotos = (props) => {
                     </Row>
                 </Container>
 
-                {totalPages !== pageNo && <div className="button-container">
+                {totalPages !== pageNo && isShowViewMore && <div className="button-container">
                     <Button variant="success" onClick={() => setPageNo(pageNo + 1)}>{loading ? 'Loading...' : 'View More'}</Button>
                 </div>}
             </div>

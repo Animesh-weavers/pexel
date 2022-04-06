@@ -4,8 +4,9 @@ import NavigationBar from './Components/NavigationBar/NavigationBar';
 import Home from './Components/Pages/Home';
 import Signin from './Components/Pages/Signin';
 import Signup from './Components/Pages/Signup';
-import Career from './Components/Pages/Career';
+// import Career from './Components/Pages/Career';
 import SearchedPhotos from './Components/Pages/SearchedPhotos';
+import Favourites from './Components/Pages/Favourites'
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,7 +30,7 @@ const App = () => {
         <Route path='/' element={<Home searchQueryHandler={searchQueryHandler} />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/signin' element={<Signin />} />
-        <Route path='/career' element={<Career />} />
+        <Route path='/fav' element={<Favourites />} />
         {isShowSearchedPhotos && <Route path='/searchedphotos' element={<SearchedPhotos searchQuery={searchQuery} navSearchQuery={navSearchQuery} />} />}
       </Routes>
     </>
