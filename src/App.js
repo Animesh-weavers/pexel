@@ -8,6 +8,7 @@ import Signup from './Components/Pages/Signup';
 import SearchedPhotos from './Components/Pages/SearchedPhotos';
 import Favourites from './Components/Pages/Favourites'
 
+
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [navSearchQuery, setNavSearchQuery] = useState('');
