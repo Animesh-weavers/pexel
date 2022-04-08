@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
-// import { Carousel } from 'react-responsive-carousel'
-// import "react-responsive-carousel/lib/styles/carousel.min.css";
 import axios from 'axios';
 
 
@@ -37,7 +35,7 @@ const ModalPic = (props) => {
             centered>
             <Modal.Header closeButton></Modal.Header>
             {!isLoading && <Modal.Body style={{ textAlign: 'center' }}>
-                {photoDetails != "" && <img src={photoDetails.src.medium} width='60%' />}
+                {photoDetails != "" && <img src={photoDetails.src.medium} width='50%' />}
             </Modal.Body>}
             {isLoading && <Modal.Body style={{ textAlign: 'center' }}>
                 Loading...
