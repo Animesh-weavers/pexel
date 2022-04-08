@@ -7,7 +7,6 @@ import Modal from '../Modal/ModalPic';
 import { GrView } from "@react-icons/all-files/gr/GrView";
 import './CSS/Home.css';
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
 
 const SearchedPhotos = (props) => {
     const [isNotSearchQueryValid, setNotSearchQueryValid] = useState(false);
@@ -20,7 +19,6 @@ const SearchedPhotos = (props) => {
     const [loading, setLoading] = useState(false);
     const [isShowModal, setShowModal] = useState(false);
     const [isShowViewMore, setIsShowViewMore] = useState(true);
-    const navigate = useNavigate();
     const apiKey = '563492ad6f91700001000001cc75a1da232341c3bc555e612699dba5';
     useEffect(() => {
         let headersList = {
