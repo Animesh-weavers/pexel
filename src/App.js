@@ -14,6 +14,10 @@ const App = () => {
   const [isShowSearchedPhotos, setShowSearchedPhotos] = useState(false);
   const navigate = useNavigate();
 
+  const searchQueryValidHandler = (isSearchValid) => {
+    console.log(isSearchValid);
+  }
+
   const searchQueryHandler = (query) => {
     setShowSearchedPhotos(true);
     setSearchQuery(query)
@@ -31,7 +35,7 @@ const App = () => {
         <Route path='/signup' element={<Signup />} />
         <Route path='/signin' element={<Signin />} />
         <Route path='/fav' element={<Favourites />} />
-        {isShowSearchedPhotos && <Route path='/searchedphotos' element={<SearchedPhotos searchQuery={searchQuery} navSearchQuery={navSearchQuery} />} />}
+        {isShowSearchedPhotos && <Route path='/searchedphotos' element={<SearchedPhotos searchQueryValidHandler={searchQueryValidHandler} searchQuery={searchQuery} navSearchQuery={navSearchQuery} />} />}
       </Routes>
     </>
   )

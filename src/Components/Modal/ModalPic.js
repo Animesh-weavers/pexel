@@ -35,7 +35,7 @@ const ModalPic = (props) => {
             centered>
             <Modal.Header closeButton></Modal.Header>
             {!isLoading && <Modal.Body style={{ textAlign: 'center' }}>
-                {photoDetails != "" && <img src={photoDetails.src.medium} width='50%' />}
+                {photoDetails != "" && <img src={photoDetails.src.medium} width='50%' alt="" />}
             </Modal.Body>}
             {isLoading && <Modal.Body style={{ textAlign: 'center' }}>
                 Loading...
