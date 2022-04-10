@@ -11,7 +11,7 @@ import axios from "axios";
 const SearchedPhotos = (props) => {
     const [isNotSearchQueryValid, setNotSearchQueryValid] = useState(false);
     const searchQuery = props.searchQuery;
-    const perPage = 30;
+    const perPage = 27;
     const [photoId, setPhotoId] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [datas, setDatas] = useState([]);

@@ -8,7 +8,7 @@ import './CSS/Home.css';
 import axios from "axios";
 
 const Home = (props) => {
-    const perPage = 30;
+    const perPage = 27;
     // const [searchPhotoDetails, setSearchPhotoDetails] = useState([]);
     const [photoId, setPhotoId] = useState(0)
     const [totalPages, setTotalPages] = useState(1);
