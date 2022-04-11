@@ -30,7 +30,7 @@ const NavigationBar = () => {
         setUserEmail(response.data.users[0].email);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   }
 
@@ -76,7 +76,7 @@ const NavigationBar = () => {
             {authCtx.isLoggedIn && (
               <NavDropdown title={userEmail} id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to="/fav">
-                  Fav Pic
+                  Favourites
                 </NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/changepassword">
                   Change Password

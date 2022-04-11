@@ -48,7 +48,7 @@ const Signup = () => {
 
     axios(reqOptions)
       .then((response) => {
-        console.log(response.data.idToken);
+        // console.log(response.data.idToken);
         authCtx.login(response.data.idToken);
         navigate({ pathname: "/" }, { replace: true });
       })
