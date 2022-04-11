@@ -1,11 +1,39 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./NavigationBar.css";
 import AuthContext from "../../Store/auth-context";
+import axios from "axios";
 
 const NavigationBar = () => {
   const authCtx = useContext(AuthContext);
+  const [userEmail, setUserEmail] = useState("");
+
+  if (authCtx.isLoggedIn) {
+    let headersList = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    };
+
+    let bodyContent = {
+      idToken: authCtx.token,
+    };
+
+    let reqOptions = {
+      url: "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDNlkjPgbkBTKxeDo-wxYbIJHVoBbi0zdo",
+      method: "POST",
+      headers: headersList,
+      data: bodyContent,
+    };
+    axios(reqOptions)
+      .then((response) => {
+        setUserEmail(response.data.users[0].email);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   const logoutHandler = () => {
     authCtx.logout();
   };
@@ -46,7 +74,7 @@ const NavigationBar = () => {
               </Nav.Link>
             )}
             {authCtx.isLoggedIn && (
-              <NavDropdown title="Profile" id="basic-nav-dropdown">
+              <NavDropdown title={userEmail} id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to="/fav">
                   Fav Pic
                 </NavDropdown.Item>
