@@ -56,7 +56,6 @@ const App = () => {
         {authCtx.isLoggedIn && (
           <Route path="/changepassword" element={<ChangePassword />} />
         )}
-        <Route path="/load" element={<LoaderWb />} />
       </Routes>
     </>
   );
