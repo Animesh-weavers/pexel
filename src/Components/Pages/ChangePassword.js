@@ -6,6 +6,7 @@ import axios from "axios";
 import AuthContext from "../../Store/auth-context";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import LoaderWb from "../Loader/Loader";
 
 const ChangePassword = () => {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -13,6 +14,7 @@ const ChangePassword = () => {
     changePassword,
     validate
   );
+  const [isShowLoader, setIsShowLoader] = useState(false);
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
   let passwordRef = useRef();
@@ -23,6 +25,7 @@ const ChangePassword = () => {
     setPasswordShown(!passwordShown);
   };
   function changePassword() {
+    setIsShowLoader(true);
     //call api
     let headersList = {
       Accept: "application/json",
@@ -44,7 +47,7 @@ const ChangePassword = () => {
 
     axios(reqOptions)
       .then((response) => {
-        passwordRef.current.value = "";
+        setIsShowLoader(false);
         toast.success("successfully Changed", {
           position: "top-center",
           autoClose: 2000,
@@ -59,32 +62,27 @@ const ChangePassword = () => {
         }, 3000);
       })
       .catch((error) => {
-        passwordRef.current.value = "";
+        setIsShowLoader(false);
         toast.error(error.response.data.error.message, {
           position: "top-center",
-          autoClose: 5000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: true,
           progress: undefined,
         });
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
       });
   }
   return (
     <>
-      <div
-        style={{
-          width: "100%",
-          height: "90vh",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      {isShowLoader && <LoaderWb />}
+      <ToastContainer />
+      {!isShowLoader && (
         <div
-          className="container"
           style={{
             width: "100%",
             height: "90vh",
@@ -94,53 +92,64 @@ const ChangePassword = () => {
             alignItems: "center",
           }}
         >
-          <div className="image">
-            <img
-              src="https://img.freepik.com/free-vector/female-cartoon-designer-drawing-canvas-with-huge-pen_74855-19778.jpg?size=626&ext=jpg&ga=GA1.1.1921613389.1649405774"
-              alt="sigin_image"
-              width="100%"
-            />
-          </div>
+          <div
+            className="container"
+            style={{
+              width: "100%",
+              height: "90vh",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div className="image">
+              <img
+                src="https://img.freepik.com/free-vector/female-cartoon-designer-drawing-canvas-with-huge-pen_74855-19778.jpg?size=626&ext=jpg&ga=GA1.1.1921613389.1649405774"
+                alt="sigin_image"
+                width="100%"
+              />
+            </div>
 
-          <div style={{ width: "40%" }}>
-            <h1>Change Password</h1>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type={passwordShown ? "text" : "password"}
-                  placeholder="Password"
-                  name="password"
-                  onChange={handleChange}
-                  value={values.password || ""}
-                  ref={passwordRef}
-                  required
-                />
-                <Form.Check
-                  aria-label="option 1"
-                  label="Show Password"
-                  id="show-pass"
-                  style={{ userSelect: "none" }}
-                  ref={showPassRef}
-                  onClick={passwordShowHandler}
-                />
-              </Form.Group>
-              <Button
-                id="btn-form-submit"
-                type="submit"
-                style={{
-                  backgroundColor: "#29A080",
-                  border: "none",
-                  width: "100%",
-                }}
-              >
-                Change
-              </Button>
-            </Form>
+            <div style={{ width: "40%" }}>
+              <h1>Change Password</h1>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type={passwordShown ? "text" : "password"}
+                    placeholder="Password"
+                    name="password"
+                    onChange={handleChange}
+                    value={values.password || ""}
+                    ref={passwordRef}
+                    required
+                  />
+                  <Form.Check
+                    aria-label="option 1"
+                    label="Show Password"
+                    id="show-pass"
+                    style={{ userSelect: "none" }}
+                    ref={showPassRef}
+                    onClick={passwordShowHandler}
+                  />
+                </Form.Group>
+                <Button
+                  id="btn-form-submit"
+                  type="submit"
+                  style={{
+                    backgroundColor: "#29A080",
+                    border: "none",
+                    width: "100%",
+                  }}
+                >
+                  Change
+                </Button>
+              </Form>
+            </div>
           </div>
         </div>
-      </div>
-      <ToastContainer />
+      )}
     </>
   );
 };
