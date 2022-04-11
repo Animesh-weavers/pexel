@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import axios from 'axios';
+import LoaderWb from '../Loader/Loader';
 
 
 
@@ -38,7 +39,7 @@ const ModalPic = (props) => {
                 {photoDetails != "" && <img src={photoDetails.src.medium} width='50%' alt="" />}
             </Modal.Body>}
             {isLoading && <Modal.Body style={{ textAlign: 'center' }}>
-                Loading...
+                <LoaderWb />
             </Modal.Body>}
 
         </Modal>
