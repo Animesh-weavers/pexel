@@ -21,6 +21,8 @@
     "react-bootstrap-icons": "^1.8.1",
     "react-dom": "^18.0.0",
     "react-icons": "^4.3.1",
+    "react-js-loader": "^0.1.0",
+    "react-loader-spinner": "^6.0.0-0",
     "react-paginate": "^8.1.2",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.3.0",
