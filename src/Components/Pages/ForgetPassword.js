@@ -1,25 +1,25 @@
 import React, { useRef } from 'react'
 import { Form, Button } from 'react-bootstrap';
+import useForm from "../../validation/UseForm";
+import validate from "../../validation/FormValidationRules";
+import axios from "axios";
+import AuthContext from "../../Store/auth-context";
 
 const ForgetPassword = () => {
+  const { values, errors, handleChange, handleSubmit } = useForm(
+    forgetPassword,
+    validate
+  );
   let emailRef = useRef();
   //entered Input
   let enteredEmail;
-  //Form Submit Handler
-  const formSubmitHandler = (event) => {
-    event.preventDefault();
-    //drop input values
-    enteredEmail = emailRef.current.value;
-    console.log(enteredEmail);
-    //reset & after submit disable fields
-    emailRef.current.value = "";
-    emailRef.current.blur();
-    document.getElementById('btn-form-submit').disabled = true;
-    emailRef.current.disabled = true;
+
+  function forgetPassword(){
+
   }
 
-  return (
 
+  return (
     <div style={{
       width: "100%",
       height: "90vh",
@@ -41,7 +41,7 @@ const ForgetPassword = () => {
         </div>
         <div style={{ width: '30%' }}>
           <h1>Forget Password</h1>
-          <Form onSubmit={formSubmitHandler}>
+          <Form onSubmit={''}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control type="email" placeholder="Enter email" ref={emailRef} required />

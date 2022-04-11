@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import useForm from "../../validation/UseForm";
 import validate from "../../validation/FormValidationRules";
 import axios from "axios";
 import AuthContext from "../../Store/auth-context";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -11,6 +12,9 @@ const Signup = () => {
     signup,
     validate
   );
+
+  const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
   let emailRef = useRef();
   let passwordRef = useRef();
   let nameRef = useRef();
@@ -23,10 +27,38 @@ const Signup = () => {
 
   //Form Submit Handler
   function signup() {
-    // console.log(values.username);
-    // console.log(values.email);
-    // console.log(values.password);
+    //call api
+    let headersList = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    };
 
+    let bodyContent = {
+      email: values.email,
+      password: values.password,
+      returnSecureToken: "true",
+    };
+
+    let reqOptions = {
+      url: "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDNlkjPgbkBTKxeDo-wxYbIJHVoBbi0zdo",
+      method: "POST",
+      headers: headersList,
+      data: bodyContent,
+    };
+
+    axios(reqOptions)
+      .then((response) => {
+        console.log(response.data.idToken);
+        authCtx.login(response.data.idToken);
+        navigate({ pathname: "/" }, { replace: true });
+      })
+      .catch((error) => {
+        emailRef.current.value = "";
+        nameRef.current.value = "";
+        passwordRef.current.value = "";
+        alert(error.response.data.error.message);
+        navigate({ pathname: "/signin" }, { replace: true });
+      });
   }
 
   return (
