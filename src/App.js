@@ -9,7 +9,7 @@ import Favourites from "./Components/Pages/Favourites";
 import ForgetPassword from "./Components/Pages/ForgetPassword";
 import ChangePassword from "./Components/Pages/ChangePassword";
 import AuthContext from "./Store/auth-context";
-import LoaderWb from "./Components/Loader/Loader";
+
 
 const App = () => {
   const authCtx = useContext(AuthContext);
