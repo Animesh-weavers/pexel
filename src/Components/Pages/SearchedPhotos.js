@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Row, Col, Container, Button } from "react-bootstrap";
 import { MdFavoriteBorder } from "@react-icons/all-files/md/MdFavoriteBorder";
 // import {MdFavorite} from "@react-icons/all-files/md/MdFavorite";
-// import { BiErrorCircle } from "@react-icons/all-files/bi/BiErrorCircle";
+import { BiErrorCircle } from "@react-icons/all-files/bi/BiErrorCircle";
 import Modal from "../Modal/ModalPic";
 import { GrView } from "@react-icons/all-files/gr/GrView";
 import "./CSS/Home.css";
@@ -116,8 +116,19 @@ const SearchedPhotos = (props) => {
         </div>
       )}
       {!loading && inValidStatus && (
-        <div style={{width:'100%',height:'92vh',display:'flex',justifyContent:'center',alignItems:'center'}}>
-          <h1>Please Enter A Valid Input</h1>
+        <div
+          style={{
+            width: "100%",
+            height: "92vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <h1>
+            {" "}
+            <BiErrorCircle /> Please Enter A Valid Input
+          </h1>
         </div>
       )}
       <ToastContainer />
