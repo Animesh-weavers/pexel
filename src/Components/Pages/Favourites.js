@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Favourites = () => {
+const Favourites = (props) => {
     return (
         <>
-            <h1>Fav</h1>
+
         </>
     )
 }

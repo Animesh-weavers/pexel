@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Card, Row, Col, Container, Button } from "react-bootstrap";
 import { MdFavoriteBorder } from "@react-icons/all-files/md/MdFavoriteBorder";
 // import {MdFavorite} from "@react-icons/all-files/md/MdFavorite";
-import { BiErrorCircle } from "@react-icons/all-files/bi/BiErrorCircle";
+// import { BiErrorCircle } from "@react-icons/all-files/bi/BiErrorCircle";
 import Modal from "../Modal/ModalPic";
 import { GrView } from "@react-icons/all-files/gr/GrView";
 import "./CSS/Home.css";
 import axios from "axios";
 import LoaderWb from "../Loader/Loader";
+import { useNavigate } from "react-router-dom";
 
 const SearchedPhotos = (props) => {
-  const [isNotSearchQueryValid, setNotSearchQueryValid] = useState(false);
+  const navigate = useNavigate();
   const searchQuery = props.searchQuery;
   const perPage = 27;
   const [photoId, setPhotoId] = useState(0);
@@ -38,7 +39,9 @@ const SearchedPhotos = (props) => {
       .then(function (response) {
         setTotalPages(response.page);
         if (response.data.photos.length === 0) {
-          setNotSearchQueryValid(true);
+          props.notSearchQueryValid(true);
+          navigate({ pathname: "/" }, { replace: true });
+
           setIsShowViewMore(false);
         }
         setDatas([...datas, ...response.data.photos]);
@@ -55,83 +58,57 @@ const SearchedPhotos = (props) => {
       {loading && <LoaderWb />}
       {!loading && (
         <div>
-          {!isNotSearchQueryValid && (
-            <div className="photos">
-              {photoId > 0 && (
-                <Modal
-                  photoid={photoId}
-                  show={isShowModal}
-                  onHide={() => setShowModal(false)}
-                />
-              )}
-              <Container fluid>
-                <Row>
-                  {datas?.map((data, index) => (
-                    <Col
-                      style={{ width: "18rem", padding: "1rem" }}
-                      key={index}
+          <div className="photos">
+            {photoId > 0 && (
+              <Modal
+                photoid={photoId}
+                show={isShowModal}
+                onHide={() => setShowModal(false)}
+              />
+            )}
+            <Container fluid>
+              <Row>
+                {datas?.map((data, index) => (
+                  <Col style={{ width: "18rem", padding: "1rem" }} key={index}>
+                    <Card.Img variant="top" src={data.src.large} />
+                    <Card.Body>
+                      <Card.Title>Photographer: {data.photographer}</Card.Title>
+                    </Card.Body>
+                    <Card.Body
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        width: "100%",
+                        justifyContent: "space-between",
+                      }}
                     >
-                      <Card.Img variant="top" src={data.src.large} />
-                      <Card.Body>
-                        <Card.Title>
-                          Photographer: {data.photographer}
-                        </Card.Title>
-                      </Card.Body>
-                      <Card.Body
-                        style={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          width: "100%",
-                          justifyContent: "space-between",
+                      <GrView
+                        onClick={() => {
+                          setPhotoId(data.id);
+                          setShowModal(true);
                         }}
-                      >
-                        <GrView
-                          onClick={() => {
-                            setPhotoId(data.id);
-                            setShowModal(true);
-                          }}
-                          onMouseOver={({ target }) =>
-                            (target.style.cursor = "pointer")
-                          }
-                        />
-                        <MdFavoriteBorder
-                          onMouseOver={({ target }) =>
-                            (target.style.cursor = "pointer")
-                          }
-                        />
-                      </Card.Body>
-                    </Col>
-                  ))}
-                </Row>
-              </Container>
-              {totalPages !== pageNo && isShowViewMore && (
-                <div className="button-container">
-                  <Button
-                    variant="success"
-                    onClick={() => setPageNo(pageNo + 1)}
-                  >
-                    {loading ? "Loading..." : "View More"}
-                  </Button>
-                </div>
-              )}
-            </div>
-          )}
-          {isNotSearchQueryValid && (
-            <div
-              style={{
-                height: "80vh",
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <h2>
-                {" "}
-                <BiErrorCircle /> Please Enter Valid Input
-              </h2>
-            </div>
-          )}
+                        onMouseOver={({ target }) =>
+                          (target.style.cursor = "pointer")
+                        }
+                      />
+                      <MdFavoriteBorder
+                        onMouseOver={({ target }) =>
+                          (target.style.cursor = "pointer")
+                        }
+                      />
+                    </Card.Body>
+                  </Col>
+                ))}
+              </Row>
+            </Container>
+            {totalPages !== pageNo && isShowViewMore && (
+              <div className="button-container">
+                <Button variant="success" onClick={() => setPageNo(pageNo + 1)}>
+                  {loading ? "Loading..." : "View More"}
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </>

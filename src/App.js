@@ -12,6 +12,7 @@ import AuthContext from "./Store/auth-context";
 
 const App = () => {
   const authCtx = useContext(AuthContext);
+  const [isNotSearchQueryValid, setNotSearchQueryValid] = useState(false);
   const [isShowNavbar, setIsShowNavbarHandler] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isShowSearchedPhotos, setShowSearchedPhotos] = useState(false);
@@ -25,6 +26,13 @@ const App = () => {
   const showNavbarHandler = (showNav) => {
     setIsShowNavbarHandler(showNav);
   };
+  const notSearchQueryValid = (isValid) => {
+    console.log(isValid);
+    setNotSearchQueryValid(isValid);
+  };
+  if (isNotSearchQueryValid) {
+    alert("Enter Valid Input!!");
+  }
 
   return (
     <>
@@ -39,6 +47,7 @@ const App = () => {
             <Home
               searchQueryHandler={searchQueryHandler}
               showNavbarHandler={showNavbarHandler}
+              isNotSearchQueryValid={isNotSearchQueryValid}
             />
           }
         />
@@ -62,6 +71,7 @@ const App = () => {
               <SearchedPhotos
                 searchQuery={searchQuery}
                 showNavbarHandler={showNavbarHandler}
+                notSearchQueryValid={notSearchQueryValid}
               />
             }
           />
