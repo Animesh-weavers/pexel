@@ -30,7 +30,7 @@ const Home = (props) => {
       method: "GET",
       headers: headersList,
     };
-    props.showNavbarHandler(true);
+    // props.showNavbarHandler(true);
     setLoading(true);
     axios
       .request(reqOptions)
@@ -40,7 +40,7 @@ const Home = (props) => {
           setIsShowViewMore(false);
         }
         setDatas([...datas, ...response.data.photos]);
-        props.showNavbarHandler(false);
+        // props.showNavbarHandler(false);
         setLoading(false);
       })
       .catch((error) => {
