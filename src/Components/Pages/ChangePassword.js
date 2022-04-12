@@ -25,7 +25,7 @@ const ChangePassword = (props) => {
     setPasswordShown(!passwordShown);
   };
   function changePassword() {
-    props.showNavbarHandler(true);
+    // props.showNavbarHandler(true);
     setIsShowLoader(true);
     //call api
     let headersList = {
@@ -48,7 +48,7 @@ const ChangePassword = (props) => {
 
     axios(reqOptions)
       .then((response) => {
-        props.showNavbarHandler(false);
+        // props.showNavbarHandler(false);
         setIsShowLoader(false);
         toast.success("successfully Changed", {
           position: "top-center",
@@ -64,7 +64,7 @@ const ChangePassword = (props) => {
         }, 3000);
       })
       .catch((error) => {
-        props.showNavbarHandler(false);
+        // props.showNavbarHandler(false);
         setIsShowLoader(false);
         toast.error(error.response.data.error.message, {
           position: "top-center",

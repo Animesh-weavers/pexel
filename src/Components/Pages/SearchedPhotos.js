@@ -9,8 +9,10 @@ import "./CSS/Home.css";
 import axios from "axios";
 import LoaderWb from "../Loader/Loader";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const SearchedPhotos = (props) => {
+  const [inValidStatus, setInValidStatus] = useState(false);
   const navigate = useNavigate();
   const searchQuery = props.searchQuery;
   const perPage = 27;
@@ -22,6 +24,7 @@ const SearchedPhotos = (props) => {
   const [isShowModal, setShowModal] = useState(false);
   const [isShowViewMore, setIsShowViewMore] = useState(true);
   const apiKey = "563492ad6f91700001000001cc75a1da232341c3bc555e612699dba5";
+
   useEffect(() => {
     let headersList = {
       Accept: "application/json",
@@ -32,24 +35,25 @@ const SearchedPhotos = (props) => {
       method: "GET",
       headers: headersList,
     };
-    props.showNavbarHandler(true);
     setLoading(true);
     axios
       .request(reqOptions)
       .then(function (response) {
+        // console.log(response);
         setTotalPages(response.page);
         if (response.data.photos.length === 0) {
-          props.notSearchQueryValid(true);
-          navigate({ pathname: "/" }, { replace: true });
-
           setIsShowViewMore(false);
         }
+        if (response.data.total_results == 0) {
+          setInValidStatus(true);
+        }
         setDatas([...datas, ...response.data.photos]);
-        props.showNavbarHandler(false);
+        // props.showNavbarHandler(false);
         setLoading(false);
       })
       .catch((error) => {
         // console.warn(error);
+        // console.log(error.response);
       });
   }, [searchQuery, pageNo]);
 
@@ -111,6 +115,12 @@ const SearchedPhotos = (props) => {
           </div>
         </div>
       )}
+      {!loading && inValidStatus && (
+        <div style={{width:'100%',height:'92vh',display:'flex',justifyContent:'center',alignItems:'center'}}>
+          <h1>Please Enter A Valid Input</h1>
+        </div>
+      )}
+      <ToastContainer />
     </>
   );
 };

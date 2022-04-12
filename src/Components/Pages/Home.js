@@ -47,10 +47,6 @@ const Home = (props) => {
         console.warn(error);
       });
   }, [pageNo]);
-  //searchQueryValidAlertHandler
-  // if (props.isNotSearchQueryValid) {
-  //   alert("Please Enter Valid Input!!");
-  // }
   //Search Form Submit Handler
   const formSubmitHandler = (e) => {
     e.preventDefault();
