@@ -10,16 +10,11 @@ import ForgetPassword from "./Components/Pages/ForgetPassword";
 import ChangePassword from "./Components/Pages/ChangePassword";
 import AuthContext from "./Store/auth-context";
 
-
 const App = () => {
   const authCtx = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [isShowSearchedPhotos, setShowSearchedPhotos] = useState(false);
   const navigate = useNavigate();
-
-  const searchQueryValidHandler = (isSearchValid) => {
-    console.log(isSearchValid);
-  };
 
   const searchQueryHandler = (query) => {
     setShowSearchedPhotos(true);
@@ -42,12 +37,7 @@ const App = () => {
         {isShowSearchedPhotos && authCtx.isLoggedIn && (
           <Route
             path="/searchedphotos"
-            element={
-              <SearchedPhotos
-                searchQueryValidHandler={searchQueryValidHandler}
-                searchQuery={searchQuery}
-              />
-            }
+            element={<SearchedPhotos searchQuery={searchQuery} />}
           />
         )}
         {!authCtx.isLoggedIn && (
