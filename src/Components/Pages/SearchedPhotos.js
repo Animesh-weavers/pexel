@@ -31,6 +31,7 @@ const SearchedPhotos = (props) => {
       method: "GET",
       headers: headersList,
     };
+    props.showNavbarHandler(true);
     setLoading(true);
     axios
       .request(reqOptions)
@@ -39,15 +40,13 @@ const SearchedPhotos = (props) => {
         if (response.data.photos.length === 0) {
           setNotSearchQueryValid(true);
           setIsShowViewMore(false);
-          // alert('Please Enter Valid Input');
-          // navigate({ pathname: '/' }, { replace: false });
         }
         setDatas([...datas, ...response.data.photos]);
-
+        props.showNavbarHandler(false);
         setLoading(false);
       })
       .catch((error) => {
-        console.warn(error);
+        // console.warn(error);
       });
   }, [searchQuery, pageNo]);
 

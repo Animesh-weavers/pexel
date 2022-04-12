@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import LoaderWb from "../Loader/Loader";
 
-const ChangePassword = () => {
+const ChangePassword = (props) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const { values, errors, handleChange, handleSubmit } = useForm(
     changePassword,
@@ -25,6 +25,7 @@ const ChangePassword = () => {
     setPasswordShown(!passwordShown);
   };
   function changePassword() {
+    props.showNavbarHandler(true);
     setIsShowLoader(true);
     //call api
     let headersList = {
@@ -47,6 +48,7 @@ const ChangePassword = () => {
 
     axios(reqOptions)
       .then((response) => {
+        props.showNavbarHandler(false);
         setIsShowLoader(false);
         toast.success("successfully Changed", {
           position: "top-center",
@@ -62,6 +64,7 @@ const ChangePassword = () => {
         }, 3000);
       })
       .catch((error) => {
+        props.showNavbarHandler(false);
         setIsShowLoader(false);
         toast.error(error.response.data.error.message, {
           position: "top-center",

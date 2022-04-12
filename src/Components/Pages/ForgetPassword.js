@@ -6,7 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import LoaderWb from "../Loader/Loader";
 
-const ForgetPassword = () => {
+const ForgetPassword = (props) => {
   const { values, errors, handleChange, handleSubmit } = useForm(
     forgetPassword,
     validate
@@ -16,6 +16,7 @@ const ForgetPassword = () => {
   let emailRef = useRef();
 
   function forgetPassword() {
+    props.showNavbarHandler(true);
     setIsShowLoader(true);
     let headersList = {
       Accept: "application/json",
@@ -36,11 +37,14 @@ const ForgetPassword = () => {
 
     axios(reqOptions)
       .then((response) => {
+        props.showNavbarHandler(false);
         setIsShowLoader(false);
         alert("Check your Email");
         // console.log(response)
         navigate({ pathname: "/signin" }, { replace: true });
-      }).catch((error) => {
+      })
+      .catch((error) => {
+        props.showNavbarHandler(false);
         setIsShowLoader(false);
         alert("Email is invalid");
         navigate({ pathname: "/forgetPassword" }, { replace: true });

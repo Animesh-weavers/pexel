@@ -12,6 +12,7 @@ import AuthContext from "./Store/auth-context";
 
 const App = () => {
   const authCtx = useContext(AuthContext);
+  const [isShowNavbar, setIsShowNavbarHandler] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isShowSearchedPhotos, setShowSearchedPhotos] = useState(false);
   const navigate = useNavigate();
@@ -21,30 +22,61 @@ const App = () => {
     setSearchQuery(query);
     navigate({ pathname: "/searchedphotos" }, { replace: false });
   };
+  const showNavbarHandler = (showNav) => {
+    setIsShowNavbarHandler(showNav);
+  };
 
   return (
     <>
-      <NavigationBar isShowSearchedPhotos={isShowSearchedPhotos} />
+      {!isShowNavbar && (
+        <NavigationBar isShowSearchedPhotos={isShowSearchedPhotos} />
+      )}
       <Routes>
         <Route path="*" element={<Navigate replace to="/" />} />
         <Route
           path="/"
-          element={<Home searchQueryHandler={searchQueryHandler} />}
+          element={
+            <Home
+              searchQueryHandler={searchQueryHandler}
+              showNavbarHandler={showNavbarHandler}
+            />
+          }
         />
-        {!authCtx.isLoggedIn && <Route path="/signup" element={<Signup />} />}
-        {!authCtx.isLoggedIn && <Route path="/signin" element={<Signin />} />}
+        {!authCtx.isLoggedIn && (
+          <Route
+            path="/signup"
+            element={<Signup showNavbarHandler={showNavbarHandler} />}
+          />
+        )}
+        {!authCtx.isLoggedIn && (
+          <Route
+            path="/signin"
+            element={<Signin showNavbarHandler={showNavbarHandler} />}
+          />
+        )}
         {authCtx.isLoggedIn && <Route path="/fav" element={<Favourites />} />}
         {isShowSearchedPhotos && authCtx.isLoggedIn && (
           <Route
             path="/searchedphotos"
-            element={<SearchedPhotos searchQuery={searchQuery} />}
+            element={
+              <SearchedPhotos
+                searchQuery={searchQuery}
+                showNavbarHandler={showNavbarHandler}
+              />
+            }
           />
         )}
         {!authCtx.isLoggedIn && (
-          <Route path="/forgetpassword" element={<ForgetPassword />} />
+          <Route
+            path="/forgetpassword"
+            element={<ForgetPassword showNavbarHandler={showNavbarHandler} />}
+          />
         )}
         {authCtx.isLoggedIn && (
-          <Route path="/changepassword" element={<ChangePassword />} />
+          <Route
+            path="/changepassword"
+            element={<ChangePassword showNavbarHandler={showNavbarHandler} />}
+          />
         )}
       </Routes>
     </>

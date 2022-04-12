@@ -7,7 +7,7 @@ import axios from "axios";
 import AuthContext from "../../Store/auth-context";
 import LoaderWb from "../Loader/Loader";
 
-const Signin = () => {
+const Signin = (props) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const { values, errors, handleChange, handleSubmit } = useForm(
     signin,
@@ -27,6 +27,7 @@ const Signin = () => {
 
   //Form Submit Handler
   function signin() {
+    props.showNavbarHandler(true);
     setIsShowLoader(true);
     //reset input fields
     emailRef.current.value = "";
@@ -54,11 +55,13 @@ const Signin = () => {
 
     axios(reqOptions)
       .then((response) => {
+        props.showNavbarHandler(false);
         setIsShowLoader(false);
         authCtx.login(response.data.idToken);
         navigate({ pathname: "/" }, { replace: true });
       })
       .catch((error) => {
+        props.showNavbarHandler(false);
         setIsShowLoader(false);
         alert(error.response.data.error.message);
         navigate({ pathname: "/signup" }, { replace: true });

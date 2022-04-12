@@ -7,7 +7,7 @@ import AuthContext from "../../Store/auth-context";
 import { useNavigate } from "react-router-dom";
 import LoaderWb from "../Loader/Loader";
 
-const Signup = () => {
+const Signup = (props) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const { values, errors, handleChange, handleSubmit } = useForm(
     signup,
@@ -29,6 +29,7 @@ const Signup = () => {
 
   //Form Submit Handler
   function signup() {
+    props.showNavbarHandler(true);
     setIsShowLoader(true);
     //call api
     let headersList = {
@@ -52,10 +53,12 @@ const Signup = () => {
     axios(reqOptions)
       .then((response) => {
         authCtx.login(response.data.idToken);
+        props.showNavbarHandler(false);
         setIsShowLoader(false);
         navigate({ pathname: "/" }, { replace: true });
       })
       .catch((error) => {
+        props.showNavbarHandler(false);
         setIsShowLoader(false);
         alert(error.response.data.error.message);
         navigate({ pathname: "/signin" }, { replace: true });
