@@ -1,14 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Form, Card, Row, Col, Container, Button } from "react-bootstrap";
 import { MdFavoriteBorder } from "@react-icons/all-files/md/MdFavoriteBorder";
-// import {MdFavorite} from "@react-icons/all-files/md/MdFavorite";
+import { MdFavorite } from "@react-icons/all-files/md/MdFavorite";
 import Modal from "../Modal/ModalPic";
 import { GrView } from "@react-icons/all-files/gr/GrView";
 import "./CSS/Home.css";
 import axios from "axios";
 import LoaderWb from "../Loader/Loader";
+// import { toast, ToastContainer } from "react-toastify";
 
 const Home = (props) => {
+
   const perPage = 27;
   const [photoId, setPhotoId] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
@@ -19,6 +21,7 @@ const Home = (props) => {
   const searchInputRef = useRef();
   const [isShowViewMore, setIsShowViewMore] = useState(true);
   const apiKey = "563492ad6f91700001000001cc75a1da232341c3bc555e612699dba5";
+
 
   useEffect(() => {
     let headersList = {
@@ -47,6 +50,9 @@ const Home = (props) => {
         console.warn(error);
       });
   }, [pageNo]);
+
+
+
   //Search Form Submit Handler
   const formSubmitHandler = (e) => {
     e.preventDefault();
@@ -117,11 +123,17 @@ const Home = (props) => {
                           (target.style.cursor = "pointer")
                         }
                       />
+
                       <MdFavoriteBorder
                         onMouseOver={({ target }) =>
                           (target.style.cursor = "pointer")
                         }
+                        onClick={({ target }) => {
+                          props.favAddHandler(data.id);
+                        }}
                       />
+
+                      {/* <MdFavorite /> */}
                     </Card.Body>
                   </Col>
                 ))}
