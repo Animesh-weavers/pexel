@@ -10,7 +10,6 @@ import LoaderWb from "../Loader/Loader";
 // import { toast, ToastContainer } from "react-toastify";
 
 const Home = (props) => {
-
   const perPage = 27;
   const [photoId, setPhotoId] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
@@ -21,7 +20,6 @@ const Home = (props) => {
   const searchInputRef = useRef();
   const [isShowViewMore, setIsShowViewMore] = useState(true);
   const apiKey = "563492ad6f91700001000001cc75a1da232341c3bc555e612699dba5";
-
 
   useEffect(() => {
     let headersList = {
@@ -50,8 +48,6 @@ const Home = (props) => {
         console.warn(error);
       });
   }, [pageNo]);
-
-
 
   //Search Form Submit Handler
   const formSubmitHandler = (e) => {
@@ -130,6 +126,12 @@ const Home = (props) => {
                         }
                         onClick={({ target }) => {
                           props.favAddHandler(data.id);
+                          setTimeout(() => {
+                            const prevPhotos = JSON.parse(
+                              localStorage.getItem("favPhotos")
+                            );
+                            // console.log(prevPhotos);
+                          }, 3000);
                         }}
                       />
 
