@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Form, Card, Row, Col, Container, Button } from "react-bootstrap";
+import { Card, Row, Col, Container } from "react-bootstrap";
 import Modal from "../Modal/ModalPic";
 import { GrView } from "@react-icons/all-files/gr/GrView";
 import LoaderWb from "../Loader/Loader";
