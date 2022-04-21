@@ -11,6 +11,8 @@ import LoaderWb from "../Loader/Loader";
 
 const Home = (props) => {
   const perPage = 27;
+  const [id, setId] = useState(0);
+  const [prevPhotoId, setPrevPhotoId] = useState([]);
   const [photoId, setPhotoId] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [pageNo, setPageNo] = useState(1);
@@ -20,6 +22,11 @@ const Home = (props) => {
   const searchInputRef = useRef();
   const [isShowViewMore, setIsShowViewMore] = useState(true);
   const apiKey = "563492ad6f91700001000001cc75a1da232341c3bc555e612699dba5";
+  let favArray;
+  useEffect(() => {
+    const prevPhotos = JSON.parse(localStorage.getItem("favPhotos"));
+    setPrevPhotoId(prevPhotos);
+  }, [id]);
 
   useEffect(() => {
     let headersList = {
@@ -119,19 +126,26 @@ const Home = (props) => {
                           (target.style.cursor = "pointer")
                         }
                       />
-
+                      {/* {prevPhotoId?.includes(data.id) ? (
+                        <MdFavoriteBorder
+                          onMouseOver={({ target }) =>
+                            (target.style.cursor = "pointer")
+                          }
+                          onClick={({ target }) => {
+                            props.favAddHandler(data.id);
+                            setId(data.id);
+                          }}
+                        />
+                      ) : (
+                        <MdFavorite />
+                      )} */}
                       <MdFavoriteBorder
                         onMouseOver={({ target }) =>
                           (target.style.cursor = "pointer")
                         }
                         onClick={({ target }) => {
                           props.favAddHandler(data.id);
-                          setTimeout(() => {
-                            const prevPhotos = JSON.parse(
-                              localStorage.getItem("favPhotos")
-                            );
-                            // console.log(prevPhotos);
-                          }, 3000);
+                          setId(data.id);
                         }}
                       />
 
